@@ -283,6 +283,7 @@ namespace ImageSelector
                     CurrentIndex--;
                     ShowImage();
                 }
+                e.SuppressKeyPress = true;
             }
 
             //capture right arrow key
@@ -293,6 +294,7 @@ namespace ImageSelector
                     CurrentIndex++;
                     ShowImage();
                 }
+                e.SuppressKeyPress = true;
             }
 
             //capture up arrow key
@@ -386,7 +388,7 @@ namespace ImageSelector
                 }
                 else if (TrackBar.Value == TrackBar.Maximum)
                 {
-                    CurrentZoom = 6;
+                    CurrentZoom = 5;
                     //RestPictureBoxLocation();
                 }
             }
@@ -408,11 +410,11 @@ namespace ImageSelector
                 else if (TrackBar.Value == TrackBar.Maximum)
                 {
                     CurrentZoom = 0;
-                    //RestPictureBoxLocation();
+                    RestPictureBoxLocation();
                 }
             }
 
-            e.SuppressKeyPress = true;
+            
 
         }
 
