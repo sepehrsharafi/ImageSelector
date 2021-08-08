@@ -92,7 +92,7 @@ namespace ImageSelector
                 file.Delete();
             }
         }
-        
+
         public static void SelectImage(string SelectedFolderPath, int CurrentIndex, string txtNotes, string txtAddress, string currentImagePath, Image[] images, DataGridView dgSelectedImages)
         {
             if (!Directory.Exists(SelectedFolderPath))
@@ -111,7 +111,7 @@ namespace ImageSelector
 
             string NotesPath = SelectedFolderPath + @"\" + Path.GetFileNameWithoutExtension(currentImagePath) + ".txt";
 
-           
+
             if (!String.IsNullOrEmpty(txtNotes))
             {
                 File.Create(NotesPath).Close(); // Create file
@@ -128,31 +128,48 @@ namespace ImageSelector
         //Change Image to Correct Orientation When displaying to PictureBox
         public static RotateFlipType Rotate(Image bmp)
         {
-            const int OrientationId = 0x0112;
             PropertyItem pi = bmp.PropertyItems.Select(x => x)
-                                        .FirstOrDefault(x => x.Id == OrientationId);
+                                 .FirstOrDefault(x => x.Id == 0x0112);
             if (pi == null)
                 return RotateFlipType.RotateNoneFlipNone;
 
             byte o = pi.Value[0];
 
-            //Orientations
-            if (o == 2) //TopRight
-                return RotateFlipType.RotateNoneFlipX;
-            if (o == 3) //BottomRight
-                return RotateFlipType.RotateNoneFlipXY;
-            if (o == 4) //BottomLeft
-                return RotateFlipType.RotateNoneFlipY;
-            if (o == 5) //LeftTop
-                return RotateFlipType.Rotate90FlipX;
-            if (o == 6) //RightTop
-                return RotateFlipType.Rotate90FlipNone;
-            if (o == 7) //RightBottom
-                return RotateFlipType.Rotate90FlipY;
-            if (o == 8) //LeftBottom
-                return RotateFlipType.Rotate90FlipXY;
+           // Orientations
+            if (o == 2) bmp.RotateFlip(RotateFlipType.RotateNoneFlipX);
+            if (o == 3) bmp.RotateFlip(RotateFlipType.RotateNoneFlipXY);
+            if (o == 4) bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
+            if (o == 5) bmp.RotateFlip(RotateFlipType.Rotate90FlipX);
+            if (o == 6) bmp.RotateFlip(RotateFlipType.Rotate90FlipNone);
+            if (o == 7) bmp.RotateFlip(RotateFlipType.Rotate90FlipY);
+            if (o == 8) bmp.RotateFlip(RotateFlipType.Rotate90FlipXY);
 
             return RotateFlipType.RotateNoneFlipNone; //TopLeft (what the image looks by default) [or] Unknown
+
+        }
+
+        //public void Rotate(Image bmp)
+        //{
+        //    PropertyItem pi = bmp.PropertyItems.Select(x => x)
+        //                         .FirstOrDefault(x => x.Id == 0x0112);
+
+        //    if (pi == null) return;
+
+        //    byte o = pi.Value[0];
+
+        //    if (o == 2) bmp.RotateFlip(RotateFlipType.RotateNoneFlipX);
+        //    if (o == 3) bmp.RotateFlip(RotateFlipType.RotateNoneFlipXY);
+        //    if (o == 4) bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
+        //    if (o == 5) bmp.RotateFlip(RotateFlipType.Rotate90FlipX);
+        //    if (o == 6) bmp.RotateFlip(RotateFlipType.Rotate90FlipNone);
+        //    if (o == 7) bmp.RotateFlip(RotateFlipType.Rotate90FlipY);
+        //    if (o == 8) bmp.RotateFlip(RotateFlipType.Rotate90FlipXY);
+        //}
+
+        PropertyItem getPropertyItemByID(Image img, int Id)
+        {
+            return
+              img.PropertyItems.Select(x => x).FirstOrDefault(x => x.Id == Id);
         }
     }
 }

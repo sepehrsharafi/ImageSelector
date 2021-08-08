@@ -106,7 +106,7 @@ namespace ImageSelector
             pbCurrentImage.Image = img;
             lblFileName.Text = Path.GetFileName(images[CurrentIndex]);
 
-            pbCurrentImage.Image.RotateFlip(Helper.Rotate(pbCurrentImage.Image));
+            pbCurrentImage.Image.RotateFlip(Helper.Rotate(img));
         }
 
         private void btnNext_Click(object sender, EventArgs e)
